@@ -1,0 +1,16 @@
+{
+  "name": "crash-cource",
+  "version": "1.0.0",
+  "description": "Sample Node JS Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Gulam Ahsan",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "rxjs": "^7.8.0"
+  },
+  "type": "module"
+}
