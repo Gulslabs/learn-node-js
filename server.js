@@ -1,9 +1,14 @@
 const http = require('http');
 const fs = require('fs');
-
+const _ = require('lodash');
 // run `node server`
 
 const server = http.createServer((req, res) => {
+
+  const num = _.random(0,20);
+  
+  console.log("Random Num: ", num);
+
   // console.log(req);
   console.log(req.url);
 

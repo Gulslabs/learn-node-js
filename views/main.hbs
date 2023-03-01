@@ -1,0 +1,20 @@
+<script src="css">
+    li {
+        font - size: 2rem;
+        width: 300px;
+        margin: 4px;
+        padding: 4px;
+        list - style: none
+    }
+.midlaner { background - color: #eeeeee }
+.toplaner { background - color: #ffea00 }
+</script>
+{{> lovedChamps}}
+{{> hatedChamps}}
+{{#if listExists}} 
+  <ul>
+    {{#each suggestedChamps}}
+      <li class={{this.lane}}>{{this.name}}</li>
+    {{/each}}
+  </ul>
+{{/if}}
