@@ -1,37 +1,36 @@
-
-
 const { createHash } = require('crypto');
 
 class BloomFilter {
   constructor(sizeInBytes) {
     this.sizeInBits = sizeInBytes * 8;
-    this.hashFunctions = 6; // Number of hash functions (chunks of 48 bits)
+    this.hashFunctions = 5; // Number of hash functions (chunks of 48 bits)
     this.bitArray = new Array(this.sizeInBits).fill(0);
   }
 
   add(element) {
+    const hash = this.getHash(element);
     for (let i = 0; i < this.hashFunctions; i++) {
-      const hash = this.getHash(element, i);
-      this.bitArray[hash] = 1;
+      const chunk = (hash >> (i * 48)) & BigInt(0xFFFFFFFFFFFF); // Extract 48 bits each iteration
+      this.bitArray[Number(chunk % BigInt(this.sizeInBits))] = 1;
     }
   }
 
   contains(element) {
+    const hash = this.getHash(element);
     for (let i = 0; i < this.hashFunctions; i++) {
-      const hash = this.getHash(element, i);
-      if (this.bitArray[hash] !== 1) {
+      const chunk = (hash >> (i * 48)) & BigInt(0xFFFFFFFFFFFF); // Extract 48 bits
+      if (this.bitArray[Number(chunk % BigInt(this.sizeInBits))] !== 1) {
         return false;
       }
     }
     return true;
   }
 
-  getHash(element, index) {
+  getHash(element) {
     const hash = createHash('sha256')
-      .update(`${element}${index}`)
+      .update(element)
       .digest('hex');
-    const hashInt = parseInt(hash, 16);
-    return hashInt % this.sizeInBits;
+    return BigInt(`0x${hash}`);
   }
 }
 
